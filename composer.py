@@ -111,7 +111,7 @@ def main():
 
     for i in range(1, N+1):
         static_path = STATIC_DIR / f"static_seed_{i:04d}.world"
-        dynamic_path = DYNAMIC_DIR / f"world_{i}.world"
+        dynamic_path = DYNAMIC_DIR / f"dynamic_seed_{i:04d}.world"
         out_path = OUT_DIR / f"unified_seed_{i:04d}.world"
 
         if not static_path.exists():
