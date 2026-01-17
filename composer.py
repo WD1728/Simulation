@@ -26,8 +26,15 @@ def indent(elem, level=0):
 def load_world(path: Path) -> ET.ElementTree:
     try:
         return ET.parse(str(path))
-    except Exception as e:
-        raise RuntimeError(f"[ERROR] Failed to parse {path}: {e}")
+    except Exception:
+        with open(path, 'r') as f:
+            content = f.read()  
+
+        content = content.replace('<pose frame=>', '<pose>')
+        content = content.replace('\\', '')
+
+        return ET.ElementTree(ET.fromstring(content))
+
 
 
 def get_world_root(tree: ET.ElementTree) -> ET.Element:
