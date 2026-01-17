@@ -68,6 +68,8 @@ def extract_dyn_elements(dyn_world: Path):
             plugins = elem.findall("plugin")
             if len(plugins) > 0:
                 dyn_elements.append(elem)
+        elif tag == "plugins":
+            dyn_elements.append(elem)
 
     return dyn_elements
 
