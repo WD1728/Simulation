@@ -42,7 +42,15 @@ Build tools:
 - `cmake ≥ 3.10`
 - `build-essential`
 
-## 5. Plugin Compilation
+## 5. Generate unified world
+Run: 
+```
+python3 composer.py
+```
+A new folder "world_unified" will appear with the new composed world inside.
+
+Compile plugins: 
+
 From:
 ```
 Simulation/plugins/
@@ -83,7 +91,7 @@ Simulation/worlds_unified/
 Before launching Gazebo, export plugin path:
 
 ```
-export GAZEBO_PLUGIN_PATH=$PWD/Simulation/plugins/build:$GAZEBO_PLUGIN_PATH
+export GAZEBO_PLUGIN_PATH=$PWD/plugins/build:$GAZEBO_PLUGIN_PATH
 ```
 
 Run a unified scenario:
