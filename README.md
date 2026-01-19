@@ -91,6 +91,10 @@ Simulation/worlds_unified/
 Before launching Gazebo, export plugin path:
 
 ```
+cd ~/barn_ws/Simulation
+```
+
+```
 export GAZEBO_PLUGIN_PATH=$PWD/plugins/build:$GAZEBO_PLUGIN_PATH
 ```
 
