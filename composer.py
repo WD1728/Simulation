@@ -64,7 +64,7 @@ def extract_dyn_elements(dyn_world: Path):
         if tag == "actor":
             dyn_elements.append(elem)
         elif tag == "model":
-            plugins = elem.findall("plugin")
+            dyn_elements.append(elem)
         elif tag == "plugins":
             dyn_elements.append(elem)
 
