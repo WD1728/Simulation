@@ -101,5 +101,5 @@ export GAZEBO_PLUGIN_PATH=$PWD/plugins/build:$GAZEBO_PLUGIN_PATH
 Run a unified scenario:
 
 ```
-gazebo Simulation/worlds_unified/unified_seed_0001.world
+gazebo worlds_unified/unified_seed_0001.world
 ```
