@@ -46,7 +46,7 @@ def get_world_root(tree: ET.ElementTree) -> ET.Element:
 
 
 def extract_dyn_elements(dyn_world: Path):
-    """Extract actors + plugin models from dynamic world."""
+    #Extract actors + plugin models from dynamic world
     tree = load_world(dyn_world)
     droot = get_world_root(tree)
 
@@ -66,8 +66,6 @@ def extract_dyn_elements(dyn_world: Path):
             dyn_elements.append(elem)
         elif tag == "model":
             plugins = elem.findall("plugin")
-            if len(plugins) > 0:
-                dyn_elements.append(elem)
         elif tag == "plugins":
             dyn_elements.append(elem)
 
