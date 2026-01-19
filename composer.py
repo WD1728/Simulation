@@ -10,7 +10,6 @@ N = 200   # number of merged worlds to produce
 
 
 def indent(elem, level=0):
-    """Pretty-print XML for readability."""
     i = "\n" + level*"  "
     if len(elem):
         if not elem.text or not elem.text.strip():
@@ -89,10 +88,29 @@ def ensure_unique_name(elem, existing_names):
         i += 1
 
 
+def translate_model(elem, dx, dy, dz):
+    pose = elem.find("pose")
+    if pose is not None and pose.text:
+        vals = pose.text.strip().split()
+        if len(vals) >= 6:
+            x, y, z, roll, pitch, yaw = map(float, vals)
+            x += dx
+            y += dy
+            z += dz
+            pose.text = f"{x} {y} {z} {roll} {pitch} {yaw}"
+    return elem
+
+
 def compose(static_world, dynamic_world, out_world):
     st_tree = load_world(static_world)
     static_root = get_world_root(st_tree)
+
     dyn_elems = extract_dyn_elements(dynamic_world)
+
+    # offset parameter
+    offset_x = 6.0
+    offset_y = 0.0
+    offset_z = 0.0
 
     existing = set()
     for e in list(static_root):
@@ -101,6 +119,7 @@ def compose(static_world, dynamic_world, out_world):
 
     for elem in dyn_elems:
         elem_copy = ET.fromstring(ET.tostring(elem))
+        translate_model(elem_copy, offset_x, offset_y, offset_z)
         ensure_unique_name(elem_copy, existing)
         static_root.append(elem_copy)
 
