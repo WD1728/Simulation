@@ -18,6 +18,8 @@ N is defaultly setted as 200.
 
 Providing only a small subset of dynamic plugins (e.g., `obs_7`, `obs_32`, `obs_180`) is insufficient for full reproducibility.
 
+Note that default Cmakelist is for 0-199 plugins. Adjust to the actual dynamic plugins you are using. 
+
 ## 3. Repository Structure
 ```
 Simulation/
