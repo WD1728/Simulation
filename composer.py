@@ -118,7 +118,7 @@ def compose(static_world, dynamic_world, out_world):
     DYN_SIZE_Y = 4.0
     
     offset_x = STATIC_SIZE_X + GATE_DEPTH
-    offset_y = (STATIC_SIZE_Y - DYNAMIC_SIZE_Y)/2
+    offset_y = (STATIC_SIZE_Y - DYN_SIZE_Y)/2
     offset_z = 0
 
     existing = set()
