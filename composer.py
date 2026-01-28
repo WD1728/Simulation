@@ -137,7 +137,7 @@ def compose(static_world, dynamic_world, out_world):
     gap = 0.3
 
     offset_x = 6.0
-    offset_y = 6.0
+    offset_y = 0.0
     offset_z = 0.0
 
     if static_bounds and dyn_bounds:
