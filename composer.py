@@ -107,10 +107,19 @@ def compose(static_world, dynamic_world, out_world):
 
     dyn_elems = extract_dyn_elements(dynamic_world)
 
-    # offset parameter
-    offset_x = 6.0
-    offset_y = 0.0
-    offset_z = 0.0
+    # parameter for size and place
+
+    STATIC_SIZE_X = 5.0
+    STATIC_SIZE_Y = 5.0
+    
+    GATE_DEPTH = 0.40
+
+    DYN_SIZE_X = 3.5
+    DYN_SIZE_Y = 4.0
+    
+    offset_x = STATIC_SIZE_X + GATE_DEPTH
+    offset_y = (STATIC_SIZE_Y - DYNAMIC_SIZE_Y)/2
+    offset_z = 0
 
     existing = set()
     for e in list(static_root):
