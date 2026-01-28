@@ -136,6 +136,10 @@ def compose(static_world, dynamic_world, out_world):
 
     gap = 0.3
 
+    offset_x = 6.0
+    offset_y = 6.0
+    offset_z = 0.0
+
     if static_bounds and dyn_bounds:
         sminx, smaxx, sminy, smaxy = static_bounds
         dminx, dmaxx, dminy, dmaxy = dyn_bounds
@@ -144,6 +148,7 @@ def compose(static_world, dynamic_world, out_world):
         static_cy = 0.5 * (sminy + smaxy)
         dyn_cy = 0.5 * (dminy + dmaxy)
         offset_y  = static_cy - dyn_cy
+        
     else:
         print("[WARN] Failed to compute bounds, using default offset (6,0,0)")
 
