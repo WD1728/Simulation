@@ -135,9 +135,6 @@ def compose(static_world, dynamic_world, out_world):
     static_bounds = world_bounds(static_root)
 
     gap = 0.3
-    offset_x = 6.0
-    offest_y = 0.0
-    offset_z = 0.0
 
     if static_bounds and dyn_bounds:
         sminx, smaxx, sminy, smaxy = static_bounds
