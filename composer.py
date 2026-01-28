@@ -85,13 +85,9 @@ def extract_dyn_elements(dyn_world: Path):
                 continue
 
         # collect actors and plugin models
-        if tag == "actor":
+        if tag in ("model", "actor", "include", "plugins"):
             dyn_elements.append(elem)
-        elif tag == "model":
-            dyn_elements.append(elem)
-        elif tag == "plugins":
-            dyn_elements.append(elem)
-            
+        
     dyn_bounds = collect_xy_from_elems(dyn_elements)
     return dyn_elements, dyn_bounds
 
