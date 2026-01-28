@@ -9,6 +9,31 @@ OUT_DIR = Path("worlds_unified")
 N = 200   # number of merged worlds to produce
 
 
+def collect_xy_from_elems(elems):
+    xs, ys = [], []
+    for elem in elems:
+        if elem.tag not in ("model", "actor"):
+            continue
+        pose = elem.find("pose")
+        if pose is None or not pose.text:
+            continue
+        vals = pose.text.strip().split()
+        if len(vals) < 2:
+            continue
+        x, y = map(float, vals[:2])
+        xs.append(x)
+        ys.append(y)
+    if not xs:
+        return None
+    return min(xs), max(xs), min(ys), max(ys)
+
+
+def world_bounds(world_root: ET.Element):
+    """Compute axis-aligned bounds of all models/actors in a world."""
+    elems = [e for e in list(world_root) if e.tag in ("model", "actor")]
+    return collect_xy_from_elems(elems)
+
+
 def indent(elem, level=0):
     i = "\n" + level*"  "
     if len(elem):
@@ -33,7 +58,6 @@ def load_world(path: Path) -> ET.ElementTree:
         content = content.replace('\\', '')
 
         return ET.ElementTree(ET.fromstring(content))
-
 
 
 def get_world_root(tree: ET.ElementTree) -> ET.Element:
@@ -67,8 +91,9 @@ def extract_dyn_elements(dyn_world: Path):
             dyn_elements.append(elem)
         elif tag == "plugins":
             dyn_elements.append(elem)
-
-    return dyn_elements
+            
+    dyn_bounds = collect_xy_from_elems(dyn_elements)
+    return dyn_elements, dyn_bounds
 
 
 def ensure_unique_name(elem, existing_names):
@@ -105,22 +130,27 @@ def compose(static_world, dynamic_world, out_world):
     st_tree = load_world(static_world)
     static_root = get_world_root(st_tree)
 
-    dyn_elems = extract_dyn_elements(dynamic_world)
+    dyn_elems, dyn_bounds = extract_dyn_elements(dynamic_world)
 
-    # parameter for size and place
+    static_bounds = world_bounds(static_root)
 
-    STATIC_SIZE_X = 5.0
-    STATIC_SIZE_Y = 5.0
+    gap = 0.3
+    offset_x = 6.0
+    offest_y = 0.0
+    offset_z = 0.0
+
+    if static_bounds and dyn_bounds:
+        sminx, smaxx, sminy, smaxy = static_bounds
+        dminx, dmaxx, dminy, dmaxy = dyn_bounds
+
+        offset_x = (smaxx + gap) - dminx
+        static_cy = 0.5 * (sminy + smaxy)
+        dyn_cy = 0.5 * (dminy + dmaxy)
+        offset_y  = static_cy - dyn_cy
+    else:
+        print("[WARN] Failed to compute bounds, using default offset (6,0,0)")
+
     
-    GATE_DEPTH = 0.40
-
-    DYN_SIZE_X = 3.5
-    DYN_SIZE_Y = 4.0
-    
-    offset_x = STATIC_SIZE_X + GATE_DEPTH
-    offset_y = (STATIC_SIZE_Y - DYN_SIZE_Y)/2
-    offset_z = 0
-
     existing = set()
     for e in list(static_root):
         if "name" in e.attrib:
